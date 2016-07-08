@@ -1,0 +1,571 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ch.paul</groupId>
+	<artifactId>company</artifactId>
+	<version>0.5.0</version>
+
+	<packaging>pom</packaging>
+	<name>Paul :: [COMPANY PARENT]</name>
+	<description>PAUL Company Parent</description>
+	<organization>
+		<name>Paul</name>
+		<url>www.Paul.ch</url>
+	</organization>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<dist.repo.id>libs-release-local</dist.repo.id>
+		<dist.repo.name>libs-release-local</dist.repo.name>
+		<dist.repo.url>http://localhost:8888/artifactory/libs-release-local</dist.repo.url>
+
+		<dist.snaprepo.id>libs-snapshot-local</dist.snaprepo.id>
+		<dist.snaprepo.name>libs-snapshot-local</dist.snaprepo.name>
+		<dist.snaprepo.url>http://localhost:8888/artifactory/libs-snapshot-local</dist.snaprepo.url>
+
+		<scm.connection>scm:svn:https://mtzhlips11:8001/svn/ips-plf/trunk/source/dev_mvn_v3</scm.connection>
+		<scm.developerConnection>scm:svn:https://mtzhlips11:8001/svn/ips-plf/trunk/source/dev_mvn_v3</scm.developerConnection>
+		<scm.url>scm:svn:https://mtzhlips11:8001/svn/ips-plf</scm.url>
+
+		<!-- <jpa.hibernate.connection.url>jdbc:postgresql://localhost:5432/ReleasePlan</jpa.hibernate.connection.url> -->
+		<jpa.hibernate.connection.url>dummy</jpa.hibernate.connection.url>
+		<jpa.hibernate.connection.driver_class>org.postgresql.Driver</jpa.hibernate.connection.driver_class>
+		<jpa.hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</jpa.hibernate.dialect>
+		<jpa.hibernate.hbm2ddl.auto>update</jpa.hibernate.hbm2ddl.auto>
+		<jpa.hibernate.show_sql>true</jpa.hibernate.show_sql>
+		<!-- <jpa.hibernate.connection.username>admin</jpa.hibernate.connection.username> -->
+		<jpa.hibernate.connection.username>dummy</jpa.hibernate.connection.username>
+		<!-- <jpa.hibernate.connection.password>admin</jpa.hibernate.connection.password> -->
+		<jpa.hibernate.connection.password>dummy</jpa.hibernate.connection.password>
+
+		<!-- Sonar -->
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.jacoco.reportPath>${project.build.directory}/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
+		<sonar.language>java</sonar.language>
+	</properties>
+
+	<scm>
+		<connection>${scm.connection}/${project.artifactId}</connection>
+		<developerConnection>${scm.developerConnection}/${project.artifactId}</developerConnection>
+		<url>${scm.url}</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>${dist.repo.id}</id>
+			<name>${dist.repo.name}</name>
+			<url>${dist.repo.url}</url>
+		</repository>
+		<snapshotRepository>
+			<id>${dist.snaprepo.id}</id>
+			<name>${dist.snaprepo.name}</name>
+			<url>${dist.snaprepo.url}</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<!-- <plugin> -->
+			<!-- <groupId>eu.indexium</groupId> -->
+			<!-- <artifactId>smart-deploy-maven-plugin</artifactId> -->
+			<!-- </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+			</plugin>
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-release-plugin</artifactId> -->
+			<!-- </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>1.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+				<!-- <plugin> -->
+				<!-- <groupId>org.apache.maven.plugins</groupId> -->
+				<!-- <artifactId>maven-scm-plugin</artifactId> -->
+				<!-- <version>1.9.4</version> -->
+				<!-- <configuration> -->
+				<!-- <tag>${project.artifactId}-${project.version}-${timestamp}</tag> -->
+				<!-- </configuration> -->
+				<!-- </plugin> -->
+				<plugin>
+					<groupId>eu.indexium</groupId>
+					<artifactId>smart-deploy-maven-plugin</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<skipDeployVarName>maven.deploy.skip</skipDeployVarName>
+					</configuration>
+					<executions>
+						<execution>
+							<id>first</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>exists</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>second</id>
+							<phase>install</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.2</version>
+					<configuration>
+						<skip>${maven.deploy.skip}</skip>
+					</configuration>
+				</plugin>
+				<!-- <plugin> -->
+				<!-- <groupId>org.apache.maven.plugins</groupId> -->
+				<!-- <artifactId>maven-release-plugin</artifactId> -->
+				<!-- <version>2.5.2</version> -->
+				<!-- <configuration> -->
+				<!-- <goals>deploy</goals> -->
+				<!-- <autoversionsubmodules>true</autoversionsubmodules> -->
+				<!-- <autoVersionSubmodules>true</autoVersionSubmodules> -->
+				<!-- <tagBase>https://mtzhlips11:8001/svn/ips-plf/tags</tagBase> -->
+				<!-- <tagNameFormat>v@{project.version}-@{project.artifactId}</tagNameFormat> -->
+				<!-- <username>ipsbld</username> -->
+				<!-- <password>ixmbld42</password> -->
+				<!-- <remoteTagging>false</remoteTagging> -->
+				<!-- <suppressCommitBeforeTag>true</suppressCommitBeforeTag> -->
+				<!-- </configuration> -->
+				<!-- </plugin> -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<!-- IMPORTANT: Do not use version 3.2 or 3.3 because of an known error 
+						https://issues.apache.org/jira/browse/MCOMPILER-235 -->
+					<version>3.1</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+						<encoding>ISO-8859-1</encoding>
+						<!-- <compilerArgument>-proc:none</compilerArgument> -->
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.7</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.shared</groupId>
+							<artifactId>maven-filtering</artifactId>
+							<version>1.3</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>buildnumber-maven-plugin</artifactId>
+					<version>1.1</version>
+					<executions>
+						<execution>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>create</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<docheck>false</docheck>
+						<doupdate>false</doupdate>
+						<revisiononscmfailure>
+							<format>Build: #{0} ({1,date})</format>
+							<items>
+								<item>buildNumber\d*</item>
+								<item>timestamp</item>
+							</items>
+						</revisiononscmfailure>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<SCM-Revision>${buildNumber}</SCM-Revision>
+								<SCM-Branch>${buildScmBranch}</SCM-Branch>
+							</manifestEntries>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+							<manifestSections>
+								<manifestSection>
+									<name>Specification</name>
+									<manifestEntries>
+										<Specification-Name>${project.name}</Specification-Name>
+										<Specification-Title>${project.description}</Specification-Title>
+										<Specification-Version>${project.version}</Specification-Version>
+										<Specification-Vendor>${project.organization.name}</Specification-Vendor>
+									</manifestEntries>
+								</manifestSection>
+								<manifestSection>
+									<name>Implementation</name>
+									<manifestEntries>
+										<Implementation-Title>${project.artifactId}</Implementation-Title>
+										<Implementation-Version>${buildNumber} ${buildScmBranch}</Implementation-Version>
+										<Implementation-Vendor>${project.groupId}</Implementation-Vendor>
+									</manifestEntries>
+								</manifestSection>
+								<manifestSection>
+									<name>SCM</name>
+									<manifestEntries>
+										<SCM-Revision>${buildNumber}</SCM-Revision>
+										<SCM-Branch>${buildScmBranch}</SCM-Branch>
+									</manifestEntries>
+								</manifestSection>
+							</manifestSections>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.3</version>
+					<configuration>
+						<!-- <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes> -->
+						<packagingExcludes>%regex[WEB-INF/lib*]</packagingExcludes>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<archive>
+							<manifestEntries>
+<!-- 								<Dependencies>${project.groupId}.${project.artifactId}.config</Dependencies> -->
+								<SCM-Revision>${buildNumber}</SCM-Revision>
+								<SCM-Branch>${buildScmBranch}</SCM-Branch>
+							</manifestEntries>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+							<manifestSections>
+								<manifestSection>
+									<name>Specification</name>
+									<manifestEntries>
+										<Specification-Name>${project.name}</Specification-Name>
+										<Specification-Title>${project.description}</Specification-Title>
+										<Specification-Version>${project.version}</Specification-Version>
+										<Specification-Vendor>${project.organization.name}</Specification-Vendor>
+									</manifestEntries>
+								</manifestSection>
+								<manifestSection>
+									<name>Implementation</name>
+									<manifestEntries>
+										<Implementation-Title>${project.artifactId}</Implementation-Title>
+										<Implementation-Version>${buildNumber} ${buildScmBranch}</Implementation-Version>
+										<Implementation-Vendor>${project.groupId}</Implementation-Vendor>
+									</manifestEntries>
+								</manifestSection>
+								<manifestSection>
+									<name>SCM</name>
+									<manifestEntries>
+										<SCM-Revision>${buildNumber}</SCM-Revision>
+										<SCM-Branch>${buildScmBranch}</SCM-Branch>
+									</manifestEntries>
+								</manifestSection>
+							</manifestSections>
+						</archive>
+					</configuration>
+				</plugin>
+				<!-- <plugin> -->
+				<!-- <groupId>org.apache.maven.plugins</groupId> -->
+				<!-- <artifactId>maven-assembly-plugin</artifactId> -->
+				<!-- <version>2.5.3</version> -->
+				<!-- <configuration> -->
+				<!-- <appendAssemblyId>true</appendAssemblyId> -->
+				<!-- <descriptors> -->
+				<!-- <descriptor>src/main/assembly/assembly.xml</descriptor> -->
+				<!-- </descriptors> -->
+				<!-- </configuration> -->
+				<!-- </plugin> -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-compiler-plugin
+										</artifactId>
+										<versionRange>
+											[2.3.2,)
+										</versionRange>
+										<goals>
+											<goal>testCompile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.5.201505241946</version>
+					<executions>
+						<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+							is passed as VM argument when Maven the Surefire plugin is executed. -->
+						<execution>
+							<id>pre-unit-test</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<configuration>
+								<!-- Sets the path to the file which contains the execution data. -->
+								<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+								<!-- Sets the name of the property containing the settings for JaCoCo 
+									runtime agent. -->
+								<propertyName>surefireArgLine</propertyName>
+							</configuration>
+						</execution>
+						<!-- Ensures that the code coverage report for unit tests is created 
+							after unit tests have been run. -->
+						<execution>
+							<id>post-unit-test</id>
+							<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+							<configuration>
+								<!-- Sets the path to the file which contains the execution data. -->
+								<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+								<!-- Sets the output directory for the code coverage report. -->
+								<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.15</version>
+					<configuration>
+						<!-- Sets the VM argument line used when unit tests are run. -->
+						<argLine>-server -ea -XX:MaxPermSize=256m -Xmx4g
+							-XX:-UseSplitVerifier ${surefireArgLine}</argLine>
+						<!-- Skips unit tests if the value of skip.unit.tests property is true -->
+						<skipTests>${skip.unit.tests}</skipTests>
+						<!-- Excludes integration tests when unit tests are run. -->
+						<excludes>
+							<exclude>**/IT*.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<!-- to be deleted -->
+	<dependencies>
+		<dependency>
+			<groupId>org.jcommon</groupId>
+			<artifactId>graph</artifactId>
+			<version>1.3</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>IPS-RELEASE</id>
+			<activation>
+				<property>
+					<name>relNo</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>eu.indexium</groupId>
+						<artifactId>smart-release-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+					</plugin>
+				</plugins>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-scm-plugin</artifactId>
+							<version>1.9.4</version>
+							<configuration>
+								<tag>${relNo}-${project.artifactId}</tag>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>eu.indexium</groupId>
+							<artifactId>smart-release-maven-plugin</artifactId>
+							<version>1.2.2</version>
+							<configuration>
+								<persistenceProps>
+									<property>
+										<name>hibernate.connection.url</name>
+										<value>${jpa.hibernate.connection.url}</value>
+										<!-- <value>jdbc:postgresql://localhost:5432/ReleasePlan</value> -->
+									</property>
+									<property>
+										<name>hibernate.connection.driver_class</name>
+										<value>${jpa.hibernate.connection.driver_class}</value>
+									</property>
+									<property>
+										<name>hibernate.dialect</name>
+										<value>${jpa.hibernate.dialect}</value>
+									</property>
+									<property>
+										<name>hibernate.hbm2ddl.auto</name>
+										<value>${jpa.hibernate.hbm2ddl.auto}</value>
+									</property>
+									<property>
+										<name>hibernate.show_sql</name>
+										<value>${jpa.hibernate.show_sql}</value>
+									</property>
+									<property>
+										<name>hibernate.connection.username</name>
+										<value>${jpa.hibernate.connection.username}</value>
+										<!-- <value>admin</value> -->
+									</property>
+									<property>
+										<name>hibernate.connection.password</name>
+										<value>${jpa.hibernate.connection.password}</value>
+										<!-- <value>admin</value> -->
+									</property>
+								</persistenceProps>
+								<!-- <verbose>true</verbose> -->
+								<!-- <dryRun>true</dryRun> -->
+							</configuration>
+							<!-- <executions> -->
+							<!-- <execution> -->
+							<!-- <id>prepare</id> -->
+							<!-- <phase>validate</phase> -->
+							<!-- <goals> -->
+							<!-- <goal>prepare</goal> -->
+							<!-- </goals> -->
+							<!-- </execution> -->
+							<!-- </executions> -->
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+		<profile>
+			<id>javaDoc</id>
+			<activation>
+				<property>
+					<name>javaDoc</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
